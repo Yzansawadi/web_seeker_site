@@ -1,0 +1,6 @@
+{
+  "name": "IUST Schedule Optimizer",
+  "description": "منصة وجدول مواد جامعة IUST مع مولّد أفضل جدول أسبوعي متوافق بدون تعارض",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
