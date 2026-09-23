@@ -70,10 +70,10 @@ export const YearCourseSelector: React.FC<YearCourseSelectorProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-between sm:justify-end">
               <button
                 onClick={onClearSelection}
-                className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-100/50 px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-100/50 px-2 py-1.5 rounded-lg transition-colors flex items-center gap-1 shrink-0"
                 title="إلغاء كل المواد المختارة"
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -82,23 +82,24 @@ export const YearCourseSelector: React.FC<YearCourseSelectorProps> = ({
 
               <button
                 onClick={onViewSchedule}
-                className={`flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-xl border transition-colors ${
+                className={`flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-semibold px-2.5 sm:px-3 py-1.5 rounded-xl border transition-colors shrink-0 ${
                   showSchedulePreview
                     ? 'bg-blue-100 text-blue-800 border-blue-300 shadow-xs'
                     : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 shadow-xs'
                 }`}
                 title={showSchedulePreview ? 'إخفاء جدول أوقات المواد بالأسفل' : 'عرض جدول أوقات المواد بالأسفل'}
               >
-                <Calendar className="w-4 h-4 text-blue-600" />
+                <Calendar className="w-3.5 h-3.5 text-blue-600" />
                 <span>{showSchedulePreview ? 'إخفاء الأوقات' : 'عرض الأوقات'}</span>
               </button>
 
               <button
                 onClick={onOptimizeSchedule}
-                className="flex items-center gap-1.5 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-1.5 rounded-xl shadow-xs transition-colors"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-3 sm:px-4 py-1.5 rounded-xl shadow-xs transition-all active:scale-95 min-w-[100px]"
               >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>توليد أفضل جدول</span>
+                <Sparkles className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                <span className="hidden sm:inline">توليد أفضل جدول</span>
+                <span className="sm:hidden">توليد الجدول</span>
               </button>
             </div>
           </div>
