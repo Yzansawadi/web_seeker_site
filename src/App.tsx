@@ -42,23 +42,9 @@ export function App() {
 
   const [selectedCourses, setSelectedCourses] = useState<Course[]>(() => {
     try {
-      // Clear legacy pre-selected sample courses on upgrade
-      const hasInitializedClean = localStorage.getItem('iust_clean_start_v1');
-      if (!hasInitializedClean) {
-        localStorage.setItem('iust_clean_start_v1', 'true');
-        localStorage.removeItem('iust_selected_courses');
-        return [];
-      }
-
-      const saved = localStorage.getItem('iust_selected_courses');
-      if (saved !== null) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          return parsed;
-        }
-      }
+      localStorage.removeItem('iust_selected_courses');
     } catch (e) {
-      console.warn('Error reading saved selected courses:', e);
+      console.warn('Error clearing selected courses:', e);
     }
     // Start with completely zero selected courses
     return [];
@@ -221,8 +207,8 @@ export function App() {
     setSelectedCourses([]);
     setShowSchedulePreview(false);
     setOptimizerResult(null);
-    localStorage.setItem('iust_selected_courses', JSON.stringify([]));
-    showToast('تم إفراغ قائمة المواد المختارة');
+    localStorage.removeItem('iust_selected_courses');
+    showToast('تم تصفير جميع المواد المختارة بالكامل');
   };
 
   const handleToggleViewSchedule = () => {
