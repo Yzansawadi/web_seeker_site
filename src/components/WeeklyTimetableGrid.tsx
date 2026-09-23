@@ -164,12 +164,12 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2 no-print">
+        <div className="flex flex-wrap items-center gap-2 no-print w-full sm:w-auto justify-end">
           {/* View Mode Toggle: Overview (screenshot) vs Cards */}
           <div className="flex items-center p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
             <button
               onClick={() => setViewMode('overview')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all ${
                 viewMode === 'overview'
                   ? 'bg-white text-[#0f2d59] shadow-xs font-bold'
                   : 'text-slate-600 hover:text-slate-900'
@@ -177,12 +177,12 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
               title="عرض الجدول بالطريقة الرسمية الأفقية (نظرة عامة على الأسبوع)"
             >
               <LayoutGrid className="w-3.5 h-3.5 text-blue-600" />
-              <span>نظرة عامة (الجدول الرسمي)</span>
+              <span>نظرة عامة</span>
             </button>
 
             <button
               onClick={() => setViewMode('cards')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all ${
                 viewMode === 'cards'
                   ? 'bg-white text-[#0f2d59] shadow-xs font-bold'
                   : 'text-slate-600 hover:text-slate-900'
@@ -190,23 +190,23 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
               title="عرض الجلسات مقسمة حسب الأيام في بطاقات مفصلة"
             >
               <CalendarDays className="w-3.5 h-3.5 text-emerald-600" />
-              <span>بطاقات الأيام المفصلة</span>
+              <span>بطاقات الأيام</span>
             </button>
           </div>
 
           <button
             onClick={handleCopyText}
-            className="flex items-center gap-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-2 rounded-xl transition-colors border border-slate-200"
+            className="flex items-center gap-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-2.5 sm:px-3 py-2 rounded-xl transition-colors border border-slate-200"
             title="نسخ الجدول كنص مهيأ للمشاركة في تيليغرام أو واتساب"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'تم النسخ' : 'نسخ كنص'}</span>
+            <span>{copied ? 'تم النسخ' : 'نسخ'}</span>
           </button>
 
           {/* Separate Print button */}
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 text-xs bg-slate-800 hover:bg-slate-900 text-white font-semibold px-3 py-2 rounded-xl transition-all shadow-xs"
+            className="flex items-center gap-1.5 text-xs bg-slate-800 hover:bg-slate-900 text-white font-semibold px-2.5 sm:px-3 py-2 rounded-xl transition-all shadow-xs"
             title="طباعة الجدول عبر الطابعة أو نافذة الطباعة الرسمية"
           >
             <Printer className="w-3.5 h-3.5 text-amber-300" />
@@ -217,7 +217,7 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
           <button
             onClick={handleSavePdf}
             disabled={isExportingPdf}
-            className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl transition-all shadow-xs ${
+            className={`flex items-center gap-1.5 text-xs font-semibold px-3 sm:px-3.5 py-2 rounded-xl transition-all shadow-xs ${
               isExportingPdf
                 ? 'bg-blue-100 text-blue-800 border border-blue-300 cursor-wait'
                 : 'bg-[#0f2d59] hover:bg-[#163868] text-white'
@@ -225,7 +225,7 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
             title="حفظ وتنزيل الجدول كملف PDF عالي الدقة على جهازك"
           >
             <FileDown className={`w-3.5 h-3.5 ${isExportingPdf ? 'animate-bounce text-amber-300' : 'text-sky-200'}`} />
-            <span>{isExportingPdf ? 'جاري التجهيز...' : 'حفظ ملف PDF'}</span>
+            <span>{isExportingPdf ? 'جاري التنزيل...' : 'حفظ PDF'}</span>
           </button>
         </div>
       </div>
@@ -380,17 +380,21 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
                 position: 'fixed',
                 left: '0px',
                 top: '0px',
-                width: '297mm',
+                width: '285mm',
+                maxWidth: '285mm',
                 zIndex: 9999,
                 background: '#ffffff',
                 pointerEvents: 'none',
+                boxSizing: 'border-box',
               }
             : {
                 position: 'absolute',
                 left: '-9999px',
                 top: '-9999px',
-                width: '297mm',
+                width: '285mm',
+                maxWidth: '285mm',
                 pointerEvents: 'none',
+                boxSizing: 'border-box',
               }
         }
       >

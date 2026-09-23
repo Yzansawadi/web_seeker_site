@@ -136,9 +136,9 @@ export const YearCourseSelector: React.FC<YearCourseSelectorProps> = ({
         </div>
       )}
 
-      {/* Year Selection Tabs */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-2 shadow-xs">
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+      {/* Year Selection Tabs: 5 columns on all screens for clean symmetry */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-1.5 sm:p-2 shadow-xs">
+        <div className="grid grid-cols-5 gap-1 sm:gap-2">
           {YEAR_LABELS.map((item) => {
             const isSelected = selectedYear === item.year;
             const yearCourses = coursesByYear[item.year] || [];
@@ -150,15 +150,16 @@ export const YearCourseSelector: React.FC<YearCourseSelectorProps> = ({
               <button
                 key={item.year}
                 onClick={() => setSelectedYear(item.year)}
-                className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all text-center relative ${
+                className={`flex flex-col items-center justify-center p-2 sm:p-3 rounded-xl transition-all text-center relative ${
                   isSelected
                     ? 'bg-blue-600 text-white shadow-xs font-bold'
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium'
                 }`}
               >
-                <span className="text-sm">{item.title}</span>
+                <span className="hidden sm:inline text-sm">{item.title}</span>
+                <span className="sm:hidden text-xs font-bold">سنة {item.year}</span>
                 <span
-                  className={`text-[11px] mt-0.5 line-clamp-1 ${
+                  className={`text-[10px] sm:text-[11px] mt-0.5 line-clamp-1 ${
                     isSelected ? 'text-blue-100' : 'text-slate-500'
                   }`}
                 >
@@ -166,7 +167,7 @@ export const YearCourseSelector: React.FC<YearCourseSelectorProps> = ({
                 </span>
                 {selectedInThisYear > 0 && (
                   <span
-                    className={`absolute top-1.5 left-1.5 text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                    className={`absolute -top-1 -left-1 sm:top-1.5 sm:left-1.5 text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
                       isSelected ? 'bg-amber-400 text-slate-900' : 'bg-blue-600 text-white'
                     }`}
                   >

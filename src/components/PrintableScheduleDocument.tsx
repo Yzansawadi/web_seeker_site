@@ -180,35 +180,36 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
   return (
     <div
       id="printable-schedule-document"
-      className="print-document-root font-['Cairo',sans-serif] text-slate-900 bg-white"
+      className="print-document-root font-['Cairo',sans-serif] text-slate-900 bg-white box-border w-full max-w-full"
       dir="rtl"
+      style={{ boxSizing: 'border-box' }}
     >
       {/* ========================================================================= */}
-      {/* PAGE 1: The Official Schedule Grid (Must completely fit on Page 1)       */}
+      {/* PAGE 1: The Official Schedule Grid (Exact A4 Landscape fit)              */}
       {/* ========================================================================= */}
-      <div className="print-page-1 print-avoid-break flex flex-col justify-between min-h-[175mm] p-4 sm:p-6 bg-white border border-slate-300 rounded-xl mb-6 print:border-0 print:p-0 print:mb-0">
+      <div className="print-page-1 print-avoid-break flex flex-col justify-between p-3.5 bg-white border border-slate-300 rounded-lg mb-4 print:border-0 print:p-0 print:mb-0 box-border w-full">
         <div>
-          {/* Official Academic Header */}
-          <div className="flex items-center justify-between pb-3 mb-3 border-b-2 border-slate-900">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-lg bg-[#0f2d59] text-white flex flex-col items-center justify-center font-bold text-base leading-none shadow-xs">
+          {/* Academic Header */}
+          <div className="flex items-center justify-between pb-2 mb-2 border-b-2 border-[#0f2d59]">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-lg bg-[#0f2d59] text-white flex flex-col items-center justify-center font-bold text-sm leading-none shadow-xs">
                 <span>IUST</span>
               </div>
               <div>
-                <h1 className="text-base font-bold text-slate-900 leading-tight">
+                <h1 className="text-sm font-bold text-slate-900 leading-tight">
                   الجامعة الدولية الخاصة للعلوم والتكنولوجيا (IUST)
                 </h1>
-                <p className="text-xs text-slate-600 font-semibold">
+                <p className="text-[11px] text-slate-600 font-semibold">
                   كلية طب الأسنان • جدول الفصل الدراسي الأكاديمي
                 </p>
               </div>
             </div>
 
             <div className="text-left text-xs space-y-0.5">
-              <div className="font-bold text-[#0f2d59] text-sm">{title}</div>
-              <div className="text-slate-500 text-[11px]">تاريخ الاستخراج: {currentDate}</div>
+              <div className="font-bold text-[#0f2d59] text-xs">{title}</div>
+              <div className="text-slate-500 text-[10px]">تاريخ الاستخراج: {currentDate}</div>
               {isOptimized && (
-                <span className="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-300">
+                <span className="inline-block bg-emerald-100 text-emerald-800 text-[9px] font-bold px-1.5 py-0.2 rounded border border-emerald-300">
                   جدول مثالي منسّق بدون تعارض ✓
                 </span>
               )}
@@ -216,50 +217,50 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
           </div>
 
           {/* Quick Summary Pill Bar */}
-          <div className="grid grid-cols-4 gap-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg p-2 text-center text-xs">
+          <div className="grid grid-cols-4 gap-1.5 mb-2 bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-center text-[10px]">
             <div>
-              <span className="text-slate-500 block text-[10px]">أيام الدوام</span>
-              <span className="font-bold text-slate-900 text-xs">
+              <span className="text-slate-500 block text-[9px]">أيام الدوام</span>
+              <span className="font-bold text-slate-900 text-[10.5px]">
                 {activeDays.length} أيام ({activeDays.join(' • ')})
               </span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[10px]">المواد المسجلة</span>
-              <span className="font-bold text-slate-900 text-xs">{uniqueCourses.length} مقررات</span>
+              <span className="text-slate-500 block text-[9px]">المواد المسجلة</span>
+              <span className="font-bold text-slate-900 text-[10.5px]">{uniqueCourses.length} مقررات</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[10px]">الجلسات الأسبوعية</span>
-              <span className="font-bold text-slate-900 text-xs">{items.length} شعبة ونشاط</span>
+              <span className="text-slate-500 block text-[9px]">الجلسات الأسبوعية</span>
+              <span className="font-bold text-slate-900 text-[10.5px]">{items.length} شعبة ونشاط</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[10px]">مفتاح الألوان</span>
-              <div className="flex items-center justify-center gap-3 pt-0.5 font-bold text-[11px]">
+              <span className="text-slate-500 block text-[9px]">مفتاح الألوان</span>
+              <div className="flex items-center justify-center gap-2 pt-0.5 font-bold text-[10px]">
                 <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded bg-[#0f2d59] inline-block" />
+                  <span className="w-2 h-2 rounded bg-[#0f2d59] inline-block" />
                   <span>نظري</span>
                 </span>
                 <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded bg-[#2d6096] inline-block" />
+                  <span className="w-2 h-2 rounded bg-[#2d6096] inline-block" />
                   <span>عملي</span>
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Schedule Grid Box (Enclosed & Perfectly Scaled) */}
-          <div className="rounded-xl border-2 border-[#547392]/60 overflow-hidden bg-white shadow-2xs">
+          {/* Schedule Grid Box (Enclosed & Perfectly Scaled to Fit within margins) */}
+          <div className="rounded-lg border border-[#547392]/60 overflow-hidden bg-white shadow-2xs w-full box-border">
             {/* Header Row: Days + Time Slots */}
             <div
-              className="grid border-b border-[#547392]/50 bg-slate-100/90 text-center text-[11px] font-bold text-[#0f2d59]"
+              className="grid border-b border-[#547392]/50 bg-slate-100 text-center text-[10px] font-bold text-[#0f2d59] w-full"
               style={{
-                gridTemplateColumns: `85px repeat(${totalSlotCols}, minmax(0, 1fr))`,
+                gridTemplateColumns: `72px repeat(${totalSlotCols}, minmax(0, 1fr))`,
               }}
             >
-              <div className="py-2 px-1 bg-slate-200/80 border-l border-[#547392]/30">اليوم</div>
+              <div className="py-1.5 px-1 bg-slate-200/80 border-l border-[#547392]/30">اليوم</div>
               {timeSlots.map((slot, idx) => (
                 <div
                   key={slot.label}
-                  className={`py-2 px-0.5 font-bold ${
+                  className={`py-1.5 px-0.5 font-bold ${
                     idx < timeSlots.length - 1 ? 'border-l border-[#547392]/30' : ''
                   }`}
                 >
@@ -272,20 +273,20 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
             <div className="divide-y divide-[#547392]/30">
               {displayDays.map((day) => {
                 const dayData = dayLanesData[day] || { totalLanes: 1, placedItems: [] };
-                const laneHeightPx = 34;
-                const rowHeight = Math.max(48, dayData.totalLanes * (laneHeightPx + 4) + 12);
+                const laneHeightPx = 32;
+                const rowHeight = Math.max(44, dayData.totalLanes * (laneHeightPx + 4) + 8);
 
                 return (
                   <div
                     key={day}
-                    className="grid relative"
+                    className="grid relative w-full"
                     style={{
-                      gridTemplateColumns: `85px repeat(${totalSlotCols}, minmax(0, 1fr))`,
+                      gridTemplateColumns: `72px repeat(${totalSlotCols}, minmax(0, 1fr))`,
                       minHeight: `${rowHeight}px`,
                     }}
                   >
                     {/* Day Name */}
-                    <div className="flex items-center justify-center font-bold text-xs text-[#0f2d59] bg-slate-50/80 border-l border-[#547392]/30 select-none">
+                    <div className="flex items-center justify-center font-bold text-[11px] text-[#0f2d59] bg-slate-50/90 border-l border-[#547392]/30 select-none">
                       {day}
                     </div>
 
@@ -301,12 +302,12 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
 
                     {/* Capsule Placed Grid */}
                     <div
-                      className="absolute inset-y-0 left-0 right-[85px] p-1.5"
+                      className="absolute inset-y-0 left-0 right-[72px] p-1"
                       style={{
                         display: 'grid',
                         gridTemplateColumns: `repeat(${totalSlotCols}, minmax(0, 1fr))`,
                         gridTemplateRows: `repeat(${dayData.totalLanes}, ${laneHeightPx}px)`,
-                        gap: '4px',
+                        gap: '3px',
                         alignContent: 'center',
                       }}
                     >
@@ -316,7 +317,7 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                         return (
                           <div
                             key={`${item.courseCode}-${item.section}-${idx}`}
-                            className={`rounded-lg flex flex-col justify-center px-1.5 text-white shadow-2xs overflow-hidden leading-tight ${
+                            className={`rounded-md flex flex-col justify-center px-1 text-white shadow-2xs overflow-hidden leading-tight ${
                               isTheory ? 'bg-[#0f2d59]' : 'bg-[#2d6096]'
                             }`}
                             style={{
@@ -326,10 +327,10 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                               gridRowEnd: lane + 2,
                             }}
                           >
-                            <span className="font-bold text-[10px] sm:text-[11px] truncate text-center">
+                            <span className="font-bold text-[9.5px] truncate text-center">
                               {item.courseName}
                             </span>
-                            <div className="flex items-center justify-center gap-1.5 text-[9px] text-white/90">
+                            <div className="flex items-center justify-center gap-1 text-[8px] text-white/90">
                               <span>
                                 {item.activity} {item.section ? `(ش${item.section})` : ''}
                               </span>
@@ -347,45 +348,45 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
         </div>
 
         {/* Footer for Page 1 */}
-        <div className="pt-3 mt-3 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-medium">
+        <div className="pt-2 mt-2 border-t border-slate-200 flex items-center justify-between text-[9px] text-slate-500 font-medium">
           <span>الجامعة الدولية الخاصة للعلوم والتكنولوجيا (IUST) • الصفحة 1 من 2 (الجدول الأسبوعي)</span>
-          <span>منظّم ومولّد أفضل جدول أسبوعي ذكي • خوارزمية Branch & Bound</span>
+          <span>منظّم ومولّد أفضل جدول أسبوعي ذكي • IUST Schedule Optimizer</span>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* PAGE 2+: Detailed Registered Courses Table (Guaranteed Clean Break)       */}
+      {/* PAGE 2: Detailed Registered Courses Table (Guaranteed Clean Break)        */}
       {/* ========================================================================= */}
-      <div className="print-page-2 print-page-break p-4 sm:p-6 bg-white border border-slate-300 rounded-xl print:border-0 print:p-0">
+      <div className="print-page-2 print-page-break p-3.5 bg-white border border-slate-300 rounded-lg print:border-0 print:p-0 box-border w-full">
         {/* Table Page Header */}
-        <div className="flex items-center justify-between pb-3 mb-4 border-b-2 border-slate-900">
+        <div className="flex items-center justify-between pb-2 mb-3 border-b-2 border-[#0f2d59]">
           <div>
-            <h2 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">
+            <h2 className="text-xs sm:text-sm font-bold text-slate-900 leading-tight">
               جدول تفاصيل المقررات والشُعب المعتمدة والقاعات
             </h2>
-            <p className="text-xs text-slate-600 font-medium">
+            <p className="text-[10px] text-slate-600 font-medium">
               البيانات الأكاديمية الكاملة لجميع جلسات ومحاضرات الفصل الدراسي
             </p>
           </div>
-          <div className="text-left text-xs font-bold text-[#0f2d59]">
+          <div className="text-left text-[11px] font-bold text-[#0f2d59]">
             {uniqueCourses.length} مواد مسجلة • {items.length} جلسة أسبوعية
           </div>
         </div>
 
-        {/* HTML Table with strict multi-page break-avoiding rows */}
-        <div className="overflow-x-auto rounded-lg border border-slate-300">
-          <table className="w-full text-right text-xs border-collapse">
+        {/* Proportional Table with 100% Fixed Width */}
+        <div className="w-full overflow-hidden rounded-md border border-slate-300">
+          <table className="w-full table-fixed text-right text-[10px] border-collapse">
             <thead>
-              <tr className="bg-[#0f2d59] text-white font-bold text-[11px]">
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-8">#</th>
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-16">رمز المقرر</th>
-                <th className="py-2.5 px-3 border border-slate-300">اسم المقرر الدراسي</th>
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-14">النشاط</th>
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-12">الشعبة</th>
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-16">اليوم</th>
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-28">التوقيت</th>
-                <th className="py-2.5 px-3 border border-slate-300 text-center w-20">القاعة / المخبر</th>
-                <th className="py-2.5 px-3 border border-slate-300">المدرس / عضو الهيئة التدريسية</th>
+              <tr className="bg-[#0f2d59] text-white font-bold text-[10px]">
+                <th style={{ width: '4%' }} className="py-2 px-1 border border-slate-300 text-center">#</th>
+                <th style={{ width: '9%' }} className="py-2 px-1 border border-slate-300 text-center">الرمز</th>
+                <th style={{ width: '27%' }} className="py-2 px-2 border border-slate-300">اسم المقرر الدراسي</th>
+                <th style={{ width: '8%' }} className="py-2 px-1 border border-slate-300 text-center">النشاط</th>
+                <th style={{ width: '6%' }} className="py-2 px-1 border border-slate-300 text-center">الشعبة</th>
+                <th style={{ width: '9%' }} className="py-2 px-1 border border-slate-300 text-center">اليوم</th>
+                <th style={{ width: '13%' }} className="py-2 px-1 border border-slate-300 text-center">التوقيت</th>
+                <th style={{ width: '11%' }} className="py-2 px-1 border border-slate-300 text-center">القاعة/المخبر</th>
+                <th style={{ width: '13%' }} className="py-2 px-1.5 border border-slate-300">المدرس</th>
               </tr>
             </thead>
             <tbody>
@@ -394,41 +395,39 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                 return (
                   <tr
                     key={`${it.courseCode}-${it.section}-${it.session.day}-${idx}`}
-                    className={`print-avoid-break transition-colors ${
-                      idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'
-                    }`}
+                    className={`print-avoid-break ${idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}
                   >
-                    <td className="py-2 px-3 border border-slate-300 text-center font-bold text-slate-500">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center font-bold text-slate-500">
                       {idx + 1}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-center font-mono font-bold text-slate-800">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center font-mono font-bold text-slate-800 text-[9.5px]">
                       {it.courseCode}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 font-bold text-slate-900">
+                    <td className="py-1.5 px-2 border border-slate-300 font-bold text-slate-900 truncate">
                       {it.courseName}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-center">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center">
                       <span
-                        className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold text-white ${
+                        className={`inline-block px-1.5 py-0.2 rounded text-[9px] font-bold text-white ${
                           isTheory ? 'bg-[#0f2d59]' : 'bg-[#2d6096]'
                         }`}
                       >
                         {it.activity}
                       </span>
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-center font-bold text-slate-800">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center font-bold text-slate-800">
                       {it.section || '—'}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-center font-semibold text-slate-800">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center font-semibold text-slate-800">
                       {it.session.day}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-center font-mono font-medium text-slate-800 dir-ltr">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center font-mono font-medium text-slate-800 dir-ltr text-[9px]">
                       {it.session.start} - {it.session.end}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-center font-medium text-slate-700">
+                    <td className="py-1.5 px-1 border border-slate-300 text-center font-medium text-slate-700 truncate">
                       {it.session.room || '—'}
                     </td>
-                    <td className="py-2 px-3 border border-slate-300 text-slate-700">
+                    <td className="py-1.5 px-1.5 border border-slate-300 text-slate-700 truncate">
                       {it.session.teacher || '—'}
                     </td>
                   </tr>
@@ -439,16 +438,16 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
         </div>
 
         {/* Notes & Student Instructions */}
-        <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-1 print-avoid-break">
+        <div className="mt-3 p-2.5 bg-slate-50 border border-slate-200 rounded-md text-[9.5px] space-y-0.5 print-avoid-break">
           <p className="font-bold text-slate-800">ملاحظات أكاديمية هامة:</p>
-          <ul className="list-disc list-inside text-slate-600 text-[11px] space-y-0.5">
+          <ul className="list-disc list-inside text-slate-600 space-y-0.5">
             <li>يرجى الالتزام التام بالقاعات والشُعب المحددة أعلاه لكل جلسة مخبرية أو نظرية.</li>
             <li>في حال طرأ أي تعديل من إدارة الكلية، يمكنك إعادة فحص جدولك عبر نظام IUST الذكي.</li>
           </ul>
         </div>
 
         {/* Footer for Page 2 */}
-        <div className="pt-4 mt-4 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-medium">
+        <div className="pt-2 mt-3 border-t border-slate-200 flex items-center justify-between text-[9px] text-slate-500 font-medium">
           <span>الجامعة الدولية الخاصة للعلوم والتكنولوجيا (IUST) • الصفحة 2 من 2 (قائمة المواد والشُعب)</span>
           <span>ختم واعتماد الطالب: .......................................</span>
         </div>
