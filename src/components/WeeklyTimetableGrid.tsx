@@ -106,29 +106,42 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
   };
 
   const handlePrint = () => {
-    const originalTitle = document.title;
-    document.title = 'جدول_مواد_جامعة_IUST_المعتمد';
-    window.print();
-    setTimeout(() => {
-      document.title = originalTitle;
-    }, 1500);
+    try {
+      const originalTitle = document.title;
+      document.title = 'جدول_مواد_جامعة_IUST_المعتمد';
+      window.print();
+      setTimeout(() => {
+        document.title = originalTitle;
+      }, 1000);
+    } catch (err) {
+      console.warn('Print not supported in current frame:', err);
+      // Graceful fallback to PDF export without locking the UI
+      handleSavePdf();
+    }
   };
 
   const handleSavePdf = async () => {
+    if (isExportingPdf) return;
     setIsExportingPdf(true);
-    setExportNotice('جاري إنشاء وحفظ ملف PDF المنسق عالي الدقة...');
+    setExportNotice('جاري إنشاء وحفظ ملف PDF المنسق...');
+
+    // Short tick to ensure UI renders loading spinner before heavy canvas processing
+    await new Promise((resolve) => setTimeout(resolve, 60));
+
     try {
       const fileName = `جدول_مواد_جامعة_IUST_${new Date().toISOString().slice(0, 10)}.pdf`;
       const success = await exportScheduleToPdf('printable-schedule-document', fileName);
       if (success) {
-        setExportNotice('✓ تم تنزيل وحفظ ملف PDF بنجاح على جهازك!');
+        setExportNotice('✓ تم تنزيل ملف PDF بنجاح في مجلد التنزيلات!');
+      } else {
+        setExportNotice('تعذر إكمال التنزيل التلقائي، يرجى المحاولة مرة أخرى.');
       }
     } catch (err) {
-      console.warn('PDF generation error, fallback to print:', err);
-      handlePrint();
+      console.error('PDF generation error:', err);
+      setExportNotice('حدث خطأ أثناء تنزيل الـ PDF.');
     } finally {
       setIsExportingPdf(false);
-      setTimeout(() => setExportNotice(null), 4500);
+      setTimeout(() => setExportNotice(null), 4000);
     }
   };
 
@@ -373,30 +386,18 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
 
       {/* Dedicated Printable Schedule Document: Strictly formatted for Print & PDF export */}
       <div
+        id="printable-schedule-container"
         className="print-only"
-        style={
-          isExportingPdf
-            ? {
-                position: 'fixed',
-                left: '0px',
-                top: '0px',
-                width: '285mm',
-                maxWidth: '285mm',
-                zIndex: 9999,
-                background: '#ffffff',
-                pointerEvents: 'none',
-                boxSizing: 'border-box',
-              }
-            : {
-                position: 'absolute',
-                left: '-9999px',
-                top: '-9999px',
-                width: '285mm',
-                maxWidth: '285mm',
-                pointerEvents: 'none',
-                boxSizing: 'border-box',
-              }
-        }
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '1120px',
+          zIndex: -100,
+          opacity: 0,
+          pointerEvents: 'none',
+          boxSizing: 'border-box',
+        }}
       >
         <PrintableScheduleDocument
           items={items}

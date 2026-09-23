@@ -14,7 +14,7 @@
 @media print {
   @page {
     size: A4 landscape;
-    margin: 8mm 10mm;
+    margin: 6mm;
   }
 
   *, *::before, *::after {
@@ -42,8 +42,14 @@
   }
 
   /* Show the printable schedule document only */
+  #printable-schedule-container,
   .print-only {
     display: block !important;
+    position: static !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    pointer-events: auto !important;
   }
 
   #printable-schedule-document {
