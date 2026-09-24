@@ -37,6 +37,10 @@ const DEFAULT_TIME_SLOTS: TimeSlot[] = [
   { label: '4:00 م', startMin: 960, endMin: 1020, index: 8 },
 ];
 
+// ارتفاع الكبسولة: يجب أن يتسع لسطرين بخط عربي (Cairo) دون قصّ الحروف
+const LANE_HEIGHT_PX = 44;
+const LANE_GAP_PX = 4;
+
 export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps> = ({
   items,
   title = 'جدول الأسبوع الأكاديمي',
@@ -273,8 +277,10 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
             <div className="divide-y divide-[#547392]/30">
               {displayDays.map((day) => {
                 const dayData = dayLanesData[day] || { totalLanes: 1, placedItems: [] };
-                const laneHeightPx = 32;
-                const rowHeight = Math.max(44, dayData.totalLanes * (laneHeightPx + 4) + 8);
+                const rowHeight = Math.max(
+                  52,
+                  dayData.totalLanes * (LANE_HEIGHT_PX + LANE_GAP_PX) + 8
+                );
 
                 return (
                   <div
@@ -306,8 +312,8 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                       style={{
                         display: 'grid',
                         gridTemplateColumns: `repeat(${totalSlotCols}, minmax(0, 1fr))`,
-                        gridTemplateRows: `repeat(${dayData.totalLanes}, ${laneHeightPx}px)`,
-                        gap: '3px',
+                        gridTemplateRows: `repeat(${dayData.totalLanes}, ${LANE_HEIGHT_PX}px)`,
+                        gap: `${LANE_GAP_PX}px`,
                         alignContent: 'center',
                       }}
                     >
@@ -317,7 +323,7 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                         return (
                           <div
                             key={`${item.courseCode}-${item.section}-${idx}`}
-                            className={`rounded-md flex flex-col justify-center px-1 text-white shadow-2xs overflow-hidden leading-tight ${
+                            className={`rounded-md flex flex-col justify-center px-1.5 text-white overflow-hidden ${
                               isTheory ? 'bg-[#0f2d59]' : 'bg-[#2d6096]'
                             }`}
                             style={{
@@ -327,10 +333,17 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                               gridRowEnd: lane + 2,
                             }}
                           >
-                            <span className="font-bold text-[9.5px] truncate text-center">
+                            {/* سطر الاسم: line-height كبير حتى لا تُقصّ نقاط وأطراف الحروف العربية */}
+                            <div
+                              className="font-bold text-center whitespace-nowrap overflow-hidden text-ellipsis"
+                              style={{ fontSize: '11px', lineHeight: '18px' }}
+                            >
                               {item.courseName}
-                            </span>
-                            <div className="flex items-center justify-center gap-1 text-[8px] text-white/90">
+                            </div>
+                            <div
+                              className="flex items-center justify-center gap-1 text-white/90 whitespace-nowrap"
+                              style={{ fontSize: '9px', lineHeight: '14px' }}
+                            >
                               <span>
                                 {item.activity} {item.section ? `(ش${item.section})` : ''}
                               </span>
@@ -403,7 +416,10 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                     <td className="py-1.5 px-1 border border-slate-300 text-center font-mono font-bold text-slate-800 text-[9.5px]">
                       {it.courseCode}
                     </td>
-                    <td className="py-1.5 px-2 border border-slate-300 font-bold text-slate-900 truncate">
+                    <td
+                      className="py-1.5 px-2 border border-slate-300 font-bold text-slate-900"
+                      style={{ lineHeight: '1.6' }}
+                    >
                       {it.courseName}
                     </td>
                     <td className="py-1.5 px-1 border border-slate-300 text-center">
@@ -411,6 +427,7 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                         className={`inline-block px-1.5 py-0.2 rounded text-[9px] font-bold text-white ${
                           isTheory ? 'bg-[#0f2d59]' : 'bg-[#2d6096]'
                         }`}
+                        style={{ lineHeight: '1.6' }}
                       >
                         {it.activity}
                       </span>
@@ -424,10 +441,16 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                     <td className="py-1.5 px-1 border border-slate-300 text-center font-mono font-medium text-slate-800 dir-ltr text-[9px]">
                       {it.session.start} - {it.session.end}
                     </td>
-                    <td className="py-1.5 px-1 border border-slate-300 text-center font-medium text-slate-700 truncate">
+                    <td
+                      className="py-1.5 px-1 border border-slate-300 text-center font-medium text-slate-700"
+                      style={{ lineHeight: '1.6' }}
+                    >
                       {it.session.room || '—'}
                     </td>
-                    <td className="py-1.5 px-1.5 border border-slate-300 text-slate-700 truncate">
+                    <td
+                      className="py-1.5 px-1.5 border border-slate-300 text-slate-700"
+                      style={{ lineHeight: '1.6' }}
+                    >
                       {it.session.teacher || '—'}
                     </td>
                   </tr>
