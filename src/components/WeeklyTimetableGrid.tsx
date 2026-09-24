@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Course, DAY_ORDER, Session } from '../types';
 import { canonicalDay, sessionsOverlap } from '../utils/scheduleOptimizer';
 import { formatScheduleAsText, formatTimeRange } from '../utils/formatters';
@@ -35,6 +35,16 @@ interface WeeklyTimetableGridProps {
   isOptimized?: boolean;
 }
 
+/** هل الصفحة تعمل داخل iframe (مثل معاينة AI Studio)؟ */
+function isInsideIframe(): boolean {
+  try {
+    return window.self !== window.top;
+  } catch {
+    // الوصول إلى window.top ممنوع => نحن داخل iframe
+    return true;
+  }
+}
+
 export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
   items,
   title = 'جدول الأسبوع الأكاديمي',
@@ -44,6 +54,7 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
   // 'overview' is the new screenshot view, active FIRST and BY DEFAULT
   const [viewMode, setViewMode] = useState<'overview' | 'cards'>('overview');
   const [copied, setCopied] = useState<boolean>(false);
+  const isPrintingRef = useRef<boolean>(false);
 
   // Group items by day and detect time overlaps
   const { groupedByDay, totalConflicts, activeDaysList } = useMemo(() => {
@@ -105,21 +116,6 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const handlePrint = () => {
-    try {
-      const originalTitle = document.title;
-      document.title = 'جدول_مواد_جامعة_IUST_المعتمد';
-      window.print();
-      setTimeout(() => {
-        document.title = originalTitle;
-      }, 1000);
-    } catch (err) {
-      console.warn('Print not supported in current frame:', err);
-      // Graceful fallback to PDF export without locking the UI
-      handleSavePdf();
-    }
-  };
-
   const handleSavePdf = async () => {
     if (isExportingPdf) return;
     setIsExportingPdf(true);
@@ -143,6 +139,45 @@ export const WeeklyTimetableGrid: React.FC<WeeklyTimetableGridProps> = ({
       setIsExportingPdf(false);
       setTimeout(() => setExportNotice(null), 4000);
     }
+  };
+
+  const handlePrint = () => {
+    // منع الضغط المتكرر أثناء فتح حوار الطباعة
+    if (isPrintingRef.current) return;
+
+    // داخل iframe: لا نستدعي window.print() أبدًا لأنه يجمّد الصفحة
+    if (isInsideIframe()) {
+      handleSavePdf();
+      return;
+    }
+
+    isPrintingRef.current = true;
+    const originalTitle = document.title;
+
+    const restore = () => {
+      document.title = originalTitle;
+      isPrintingRef.current = false;
+      window.removeEventListener('afterprint', restore);
+    };
+
+    window.addEventListener('afterprint', restore);
+    document.title = 'جدول_مواد_جامعة_IUST_المعتمد';
+
+    // تأجيل بسيط ليتم تحديث الـ DOM قبل فتح حوار الطباعة
+    setTimeout(() => {
+      try {
+        window.print();
+      } catch (err) {
+        console.warn('Print failed:', err);
+        restore();
+        handleSavePdf();
+      }
+    }, 100);
+
+    // شبكة أمان إذا لم يُطلق afterprint في بعض المتصفحات
+    setTimeout(() => {
+      isPrintingRef.current = false;
+    }, 8000);
   };
 
   if (items.length === 0) {
