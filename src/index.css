@@ -23,6 +23,13 @@
     color-adjust: exact !important;
   }
 
+  /* السماح بتقطيع الصفحات بشكل صحيح (min-h-screen و overflow على الجذر تمنع ذلك) */
+  html, body, #root {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
   body {
     background-color: white !important;
     color: #0f172a !important;
