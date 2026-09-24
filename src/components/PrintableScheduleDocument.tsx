@@ -66,6 +66,8 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
   }, [items]);
 
   const totalSlotCols = timeSlots.length;
+  // عرض الشبكة التقريبي بعد عمود اليوم (الوثيقة عرضها 1120px) لتقدير حجم خط الاسم
+  const slotWidthPx = 1010 / totalSlotCols;
 
   // The university days in order
   const displayDays = useMemo(() => {
@@ -319,6 +321,12 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                     >
                       {dayData.placedItems.map(({ item, startCol, span, lane }, idx) => {
                         const isTheory = item.activity === 'نظري';
+                        // نصغّر الخط تلقائيًا للأسماء الطويلة بدل قصّها (لا نستخدم overflow على النص)
+                        const availPx = span * slotWidthPx - 14;
+                        const nameFontPx = Math.max(
+                          8,
+                          Math.min(11, availPx / (Math.max(1, item.courseName.length) * 0.7))
+                        );
 
                         return (
                           <div
@@ -333,10 +341,10 @@ export const PrintableScheduleDocument: React.FC<PrintableScheduleDocumentProps>
                               gridRowEnd: lane + 2,
                             }}
                           >
-                            {/* سطر الاسم: line-height كبير حتى لا تُقصّ نقاط وأطراف الحروف العربية */}
+                            {/* بدون overflow/ellipsis: html2canvas يقصّ نصف النص العربي عند استخدامهما */}
                             <div
-                              className="font-bold text-center whitespace-nowrap overflow-hidden text-ellipsis"
-                              style={{ fontSize: '11px', lineHeight: '18px' }}
+                              className="font-bold text-center whitespace-nowrap"
+                              style={{ fontSize: `${nameFontPx}px`, lineHeight: '20px' }}
                             >
                               {item.courseName}
                             </div>
