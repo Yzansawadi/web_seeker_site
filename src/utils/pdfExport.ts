@@ -19,7 +19,7 @@ const A4_H = 210;
 const MARGIN = 6;
 const CONTENT_W = A4_W - MARGIN * 2; // 285mm
 const CONTENT_H = A4_H - MARGIN * 2; // 198mm
-const RENDER_SCALE = 2;
+const RENDER_SCALE = 2.5;
 const TIMEOUT_MS = 45000;
 
 const COLOR_PROPS = [
